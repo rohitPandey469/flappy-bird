@@ -36,7 +36,6 @@ body:hover::before {
 }
 canvas {
   z-index: 3;
-  border: 1px solid red;
   border-radius: 2px;
   background-repeat: no-repeat;
   background-image: url("imgs/pxfuel.jpg");
