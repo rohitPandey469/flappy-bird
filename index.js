@@ -175,6 +175,7 @@ function moveBird(e) {
       pipeArr = [];
       score = 0;
       gameOver = false;
+      velocityY=0;
     }
   }
 }
