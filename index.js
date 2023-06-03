@@ -35,7 +35,14 @@ let gravity = 0.4;
 
 let gameOver = false;
 let score = 0;
+
+let die, flap, hit, point,swosh;
 window.onload = function () {
+  flap = document.querySelector("audio[data-sound='flap']");
+  hit = document.querySelector("audio[data-sound='hit']");
+  die = document.querySelector("audio[data-sound='die']");
+  point = document.querySelector("audio[data-sound='point']");
+  swosh = document.querySelector("audio[data-sound='swosh']");
   board = document.querySelector("canvas#canvas");
   board.height = boardHeight;
   board.width = boardWidth;
@@ -69,7 +76,11 @@ function update() {
   velocityY += gravity;
   // bird.y+=velocityY;
 
-  if (bird.y > board.height) gameOver = true;
+  if (bird.y > board.height) {
+    gameOver = true;
+    die.currentTime = 0;
+    die.play();
+  }
 
   bird.y = Math.max(bird.y + velocityY, 0);
   birdImg.onload = function () {
@@ -83,11 +94,17 @@ function update() {
 
     if (!pipe.passed && bird.x > pipe.x + pipe.width) {
       score += 1 / 2;
+      point.currentTime = 0;
+      point.play();
+      swosh.currentTime=0;
+      swosh.play();
       pipe.passed = true;
     }
 
     if (detectCollision(bird, pipe)) {
       gameOver = true;
+      hit.currentTime = 0;
+      hit.play();
     }
   }
 
@@ -145,9 +162,14 @@ function moveBird(e) {
     e.type == "click" ||
     e.code == "KeyX"
   ) {
-    velocityY = -6;
+    // console.log(flap);
+    if (!gameOver) {
+      flap.currentTime = 0;
+      flap.play();
+      velocityY = -6;
+    }
   }
-  if (e.code == "ArrowDown"|| e.type=="click") {
+  if (e.code == "ArrowDown" || e.type == "click") {
     if (gameOver) {
       bird.y = birdY;
       pipeArr = [];
